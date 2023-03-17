@@ -21,3 +21,4 @@ export const deleteUser = (req, res)=>{
 export const updateUser = (req, res)=>{
   res.status(201).json({name:"Joffrey", pwd:"123456"})
 }
+
