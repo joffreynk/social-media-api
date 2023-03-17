@@ -1,25 +1,18 @@
 import {Router} from "express";
+import { addUser, deleteUser, getUser, getUsers, updateUser } from "../controllers/users";
 
 const router = Router()
 
-router.get("/", (req, res)=>{
-  res.status(201).json({name:"Joffrey", pwd:"123456"})
-})
+router.get("/", getUsers)
 
 
-router.post("/", )
+router.post("/", addUser)
 
-router.get("/:id", (req, res)=>{
-  res.status(201).json({name:"Joffrey", pwd:"123456"})
-})
+router.get("/:id", getUser)
 
-router.delete("/:id", (req, res)=>{
-  res.status(201).json({name:"Joffrey", pwd:"123456"})
-})
+router.delete("/:id", deleteUser)
 
 
-router.patch("/:id", (req, res)=>{
-  res.status(201).json({name:"Joffrey", pwd:"123456"})
-})
+router.patch("/:id", updateUser)
 
 export default router
