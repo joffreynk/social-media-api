@@ -7,9 +7,7 @@ router.get("/", (req, res)=>{
 })
 
 
-router.post("/", (req, res)=>{
-  res.status(201).json({name:"Joffrey", pwd:"123456"})
-})
+router.post("/", )
 
 router.get("/:id", (req, res)=>{
   res.status(201).json({name:"Joffrey", pwd:"123456"})
