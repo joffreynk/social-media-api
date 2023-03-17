@@ -1,27 +1,17 @@
 import {Router} from "express";
+import { addStory, deleteStory, getStories, getStory, updateStory } from "../controllers/stories";
 
 const router = Router()
 
-router.get("/", (req, res)=>{
-  res.status(201).json({name:"Joffrey", pwd:"123456"})
-})
+router.get("/", getStories)
+
+router.post("/", addStory)
+
+router.get("/:id", getStory)
+
+router.delete("/:id", deleteStory)
 
 
-router.post("/", (req, res)=>{
-  res.status(201).json({name:"Joffrey", pwd:"123456"})
-})
-
-router.get("/:id", (req, res)=>{
-  res.status(201).json({name:"Joffrey", pwd:"123456"})
-})
-
-router.delete("/:id", (req, res)=>{
-  res.status(201).json({name:"Joffrey", pwd:"123456"})
-})
-
-
-router.patch("/:id", (req, res)=>{
-  res.status(201).json({name:"Joffrey", pwd:"123456"})
-})
+router.patch("/:id", updateStory)
 
 export default router

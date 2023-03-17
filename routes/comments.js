@@ -1,27 +1,17 @@
 import {Router} from "express";
+import { addComment, deleteComment, getComment, getComments, updateComment } from "../controllers/comments";
 
 const router = Router()
 
-router.get("/", (req, res)=>{
-  res.status(201).json({name:"Joffrey", pwd:"123456"})
-})
+router.get("/", getComments)
+
+router.post("/", addComment)
+
+router.get("/:id", getComment)
+
+router.delete("/:id", deleteComment)
 
 
-router.post("/", (req, res)=>{
-  res.status(201).json({name:"Joffrey", pwd:"123456"})
-})
-
-router.get("/:id", (req, res)=>{
-  res.status(201).json({name:"Joffrey", pwd:"123456"})
-})
-
-router.delete("/:id", (req, res)=>{
-  res.status(201).json({name:"Joffrey", pwd:"123456"})
-})
-
-
-router.patch("/:id", (req, res)=>{
-  res.status(201).json({name:"Joffrey", pwd:"123456"})
-})
+router.patch("/:id", updateComment)
 
 export default router

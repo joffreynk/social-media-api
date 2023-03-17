@@ -1,27 +1,16 @@
 import {Router} from "express";
+import { addLike, deleteLike, getLike, getLikes, updateLike } from "../controllers/likes";
 
 const router = Router()
 
-router.get("/", (req, res)=>{
-  res.status(201).json({name:"Joffrey", pwd:"123456"})
-})
+router.get("/", getLikes)
+
+router.post("/", addLike)
+
+router.get("/:id", getLike)
+
+router.delete("/:id", deleteLike)
 
 
-router.post("/", (req, res)=>{
-  res.status(201).json({name:"Joffrey", pwd:"123456"})
-})
-
-router.get("/:id", (req, res)=>{
-  res.status(201).json({name:"Joffrey", pwd:"123456"})
-})
-
-router.delete("/:id", (req, res)=>{
-  res.status(201).json({name:"Joffrey", pwd:"123456"})
-})
-
-
-router.patch("/:id", (req, res)=>{
-  res.status(201).json({name:"Joffrey", pwd:"123456"})
-})
-
+router.patch("/:id", updateLike)
 export default router
