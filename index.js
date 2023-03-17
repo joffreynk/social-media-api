@@ -8,8 +8,14 @@ import commentsRouter from "./routes/comments.js"
 import postsRouter from "./routes/posts.js"
 import userDetailsRouter from "./routes/userDetails.js"
 import storiesRouter from "./routes/stories.js"
+import authRouter from "./routes/auth.js"
 
 
+app.use(express.json())
+// app.use(express.cors())
+
+
+app.use("/api/v1/auth", authRouter);
 app.use("/api/v1/users", usersRouter);
 app.use("/api/v1/likes", likesRouter);
 app.use("/api/v1/comments", commentsRouter);
