@@ -7,13 +7,18 @@ export const login = (req, res)=>{
     
   const hashedpassword = bcrypt.hashSync(password, bcrypt.genSaltSync(10));
 
-  const sql = "select * from users where userName = ? AND Password = ?"
+  const sql = "select * from users where userName = ?"
 
   db.query(sql, [userName, hashedpassword], (error, data)=>{
     if (error) return res.status(500).json(error);
-    console.log(`userName=${userName} password=${hashedpassword}`);
-    console.log(data);
-    return res.status(201).json(data)
+
+    if(data.length>0){
+      const comparedPassword = bcrypt.compareSync(password, data[0].password)
+      if(!comparedPassword) return res.status(404).json({message: "wrong UserName or Password"}) 
+      return res.status(201).json(data[0])
+    }else {
+      return res.status(404).json({message: "user not found"})
+    }
   })
   }
 
