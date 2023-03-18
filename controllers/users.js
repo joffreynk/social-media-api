@@ -53,11 +53,11 @@ export const getUser = (req, res)=>{
 
 export const deleteUser = (req, res)=>{
   // check if user exist
-  const sqlCheck = "SELECT * FROM users WHERE id = ?";
+  const sqlCheck = "DELETE FROM users WHERE id = ?";
 
   db.query(sqlCheck, [req.body.id], (err, data)=>{
     if(err) return res.status(500).json(err);
-    if(data.length) return res.status(409).json(data);
+    if(data.length) return res.status(409).json({message:"User deleted successfully"});
   })
 }
 
