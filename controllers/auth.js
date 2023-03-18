@@ -33,6 +33,9 @@ export const login = (req, res)=>{
 
 
   export const logout = (req, res)=>{
-    res.status(201).json({name:"stories", pwd:"123456"})
+    res.clearCookie("accessToken",{
+      secure: true,
+      sameSite: "none"
+    }).status(200).json({message: "User logged out successfully."});
   }
   
