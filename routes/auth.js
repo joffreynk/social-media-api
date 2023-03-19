@@ -3,9 +3,9 @@ import { login, logout } from "../controllers/auth.js"
 
 const router = Router()
 
-router.post("/", login)
+router.get("/", login)
 
-router.post("/:id", logout)
+router.get("/:id", logout)
 
 
 export default router
