@@ -13,8 +13,15 @@ import storiesRouter from "./routes/stories.js"
 import authRouter from "./routes/auth.js"
 
 app.use(express.json())
-app.use(cors())
 app.use(cookieParser())
+
+app.use((req, res, next)=>{
+  res.header('Access-Control-Allow-Credentials', true);
+  next();
+})
+app.use(cors({
+  origin: "http://localhost:3000",
+}))
 
 app.use("/api/v1/auth", authRouter);
 app.use("/api/v1/users", usersRouter);

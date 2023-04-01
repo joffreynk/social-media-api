@@ -5,7 +5,6 @@ import db from "../models/connection.js";
 export const login = (req, res)=>{
 
   const sql = "SELECT * FROM `users` WHERE userName = ?";
-  console.log(req.headers.username);
 
   db.query(sql, [req.headers.username], (error, data) => {
     if (error) return res.status(500).json(error);
@@ -14,17 +13,13 @@ export const login = (req, res)=>{
     if(data.length>0){
 
       const token = jwt.sign({id: data[0].id}, "secretKey");
-      
       const comparedPassword = bcrypt.compareSync(req.headers.password, data[0].password);
-      
       if(!comparedPassword) return res.status(404).json({message: "wrong UserName or Password"});
-
       const {password, ...others} = data[0];
-
-      return res.cookie("socialMediaAppToken", token, {httpOnly: true}).status(200).json(others)
+      return res.cookie("socialMediaAppToken", token, {httpOnly: true}).status(200).json(others);
     }else {
       console.log('data=>',data);
-      return res.status(404).json({message: "user not found"})
+      return res.status(404).json({message: "user not found"});
     }
   })
 }

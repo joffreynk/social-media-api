@@ -6,6 +6,7 @@ export const getUsers = (req, res)=>{
   // check if user exist
   const sqlCheck = "SELECT * FROM users";
 
+
   db.query(sqlCheck, [req.body.user], (err, data)=>{
     if(err) return res.status(500).json(err);
     if(data.length) return res.status(409).json(data);
@@ -16,15 +17,16 @@ export const getUsers = (req, res)=>{
 export const addUser = (req, res)=>{
   // check if user exist
   const sqlCheck = "SELECT * FROM users WHERE userName = ?";
-  // console.log(req.body);
+  const body = JSON.parse(req.body.body)
 
-  db.query(sqlCheck, [req.body.userName], (err, data)=>{
+  db.query(sqlCheck, [body.userName], (err, data)=>{
     if(err) return res.status(500).json({error: 'oops check your '});
     if(data.length) return res.status(409).json({error: "The User already exists or taken!"});
 
+
     // IF USER DOESN'T EXIST CREATE NEW ONE
     const sql = "INSERT INTO users (userName, lastName, firstName, email, password) VALUES(?, ?, ?, ?, ?)";
-    const {userName, lastName, firstName, email, password}  = req.body;
+    const {userName, lastName, firstName, email, password}  = body;
     
     const hashedPassword = bcrypt.hashSync(password, bcrypt.genSaltSync(10))
 
