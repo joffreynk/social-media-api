@@ -5,9 +5,11 @@ import db from "../models/connection.js";
 export const login = (req, res)=>{
 
   const sql = "SELECT * FROM `users` WHERE userName = ?";
+  console.log(req.headers.username);
 
   db.query(sql, [req.headers.username], (error, data) => {
     if (error) return res.status(500).json(error);
+
 
     if(data.length>0){
 

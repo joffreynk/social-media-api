@@ -22,16 +22,16 @@ export const addUser = (req, res)=>{
     if(data.length) return res.status(409).json({message: "user already exists!"});
 
     // IF USER DOESN'T EXIST CREATE NEW ONE
-    const sql = "INSERT INTO users (userName, lastName, firstName, email, password, profilePicture, coverPicture, location) VALUES(?, ?, ?, ?, ?, ?, ?, ?)";
-    const {userName, lastName, firstName, email, password, profilePicture, coverPicture, location}  = req.body;
+    const sql = "INSERT INTO users (userName, lastName, firstName, email, password) VALUES(?, ?, ?, ?, ?)";
+    const {userName, lastName, firstName, email, password}  = req.body;
     
     const hashedPassword = bcrypt.hashSync(password, bcrypt.genSaltSync(10))
 
-    const values = [userName, lastName, firstName, email, hashedPassword, profilePicture, coverPicture, location];
+    const values = [userName, lastName, firstName, email, hashedPassword];
 
     db.query(sql, values, (error, dataValues) => {
       if(error) return res.status(500).json(error);
-
+      
       return res.status(200).json({message: "User created successfully!"});
     })
   })
