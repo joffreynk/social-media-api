@@ -16,10 +16,11 @@ export const getUsers = (req, res)=>{
 export const addUser = (req, res)=>{
   // check if user exist
   const sqlCheck = "SELECT * FROM users WHERE userName = ?";
+  // console.log(req.body);
 
   db.query(sqlCheck, [req.body.userName], (err, data)=>{
-    if(err) return res.status(500).json(err);
-    if(data.length) return res.status(409).json({message: "user already exists!"});
+    if(err) return res.status(500).json({error: 'oops check your '});
+    if(data.length) return res.status(409).json({error: "The User already exists or taken!"});
 
     // IF USER DOESN'T EXIST CREATE NEW ONE
     const sql = "INSERT INTO users (userName, lastName, firstName, email, password) VALUES(?, ?, ?, ?, ?)";
@@ -30,8 +31,8 @@ export const addUser = (req, res)=>{
     const values = [userName, lastName, firstName, email, hashedPassword];
 
     db.query(sql, values, (error, dataValues) => {
-      if(error) return res.status(500).json(error);
-      
+      if(error) return res.status(500).json({error: error});
+
       return res.status(200).json({message: "User created successfully!"});
     })
   })
