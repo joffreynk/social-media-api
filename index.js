@@ -8,7 +8,7 @@ import usersRouter from "./routes/users.js"
 import likesRouter from "./routes/likes.js"
 import commentsRouter from "./routes/comments.js"
 import postsRouter from "./routes/posts.js"
-import userDetailsRouter from "./routes/userDetails.js"
+import socialAccountsRouter from "./routes/socialAccounts.js"
 import storiesRouter from "./routes/stories.js"
 import authRouter from "./routes/auth.js"
 
@@ -28,7 +28,7 @@ app.use("/api/v1/users", usersRouter);
 app.use("/api/v1/likes", likesRouter);
 app.use("/api/v1/comments", commentsRouter);
 app.use("/api/v1/posts", postsRouter);
-app.use("/api/v1/userDetails", userDetailsRouter);
+app.use("/api/v1/socialAccounts", socialAccountsRouter);
 app.use("/api/v1/stories", storiesRouter);
 
 app.listen(8000, () => {

@@ -1,18 +1,18 @@
 
-export const getUserDetail = (req, res)=>{
+export const getSocialAccounts = (req, res)=>{
   res.status(201).json({name:"User details", pwd:"123456"})
 }
 
 
-export const addUserDetail = (req, res)=>{
+export const addSocialAccounts = (req, res)=>{
   res.status(201).json({name:"User details", pwd:"123456"})
 }
 
-export const deleteUserDetail = (req, res)=>{
+export const deleteSocialAccounts = (req, res)=>{
   res.status(201).json({name:"User details", pwd:"123456"})
 }
 
 
-export const updateUserDetail = (req, res)=>{
+export const updateSocialAccounts = (req, res)=>{
   res.status(201).json({name:"User details", pwd:"123456"})
 }
