@@ -1,5 +1,5 @@
 import {Router} from "express";
-import { addSocialAccounts, deleteSocialAccounts, getSocialAccounts, updateSocialAccounts } from "../controllers/SocialAccountss.js";
+import { addSocialAccounts, deleteSocialAccounts, getSocialAccounts, updateSocialAccounts } from "../controllers/socialAccounts.js";
 
 const router = Router()
 
