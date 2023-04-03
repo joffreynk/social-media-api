@@ -18,7 +18,6 @@ export const login = (req, res)=>{
       const {password, ...others} = data[0];
       return res.cookie("socialMediaAppToken", token, {httpOnly: true}).status(200).json(others);
     }else {
-      console.log('data=>',data);
       return res.status(404).json({message: "user not found"});
     }
   })
