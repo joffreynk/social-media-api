@@ -1,6 +1,6 @@
 
 export const getSocialAccounts = (req, res)=>{
-  const sqlCheck = "SELECT * FROM socialAccounts";
+  const sql = "SELECT * FROM socialAccounts";
   res.status(201).json({name:"User details", pwd:"123456"})
 }
 

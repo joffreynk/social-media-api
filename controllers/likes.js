@@ -1,5 +1,6 @@
 
 export const getLikes = (req, res)=>{
+  const sql = "SELECT * FROM likes";
   res.status(201).json({name:"likes", pwd:"123456"})
 }
 

@@ -1,5 +1,6 @@
 
 export const getComments = (req, res)=>{
+  
   res.status(201).json({name:"Comment", pwd:"123456"})
 }
 

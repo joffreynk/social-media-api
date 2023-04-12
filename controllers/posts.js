@@ -1,5 +1,6 @@
 
 export const getPosts = (req, res)=>{
+  const sql = "SELECT * FROM Posts";
   res.status(201).json({name:"posts", pwd:"123456"})
 }
 
