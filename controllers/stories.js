@@ -5,7 +5,7 @@ export const getStories = (req, res)=>{
 
 
 export const addStory = (req, res)=>{
-  const sqlCheck = "SELECT * FROM users";
+  const sqlCheck = "SELECT * FROM stories";
   res.status(201).json({name:"stories", pwd:"123456"})
 }
 
