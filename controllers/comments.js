@@ -1,6 +1,6 @@
 
 export const getComments = (req, res)=>{
-  
+  const sql = "SELECT * FROM comments";
   res.status(201).json({name:"Comment", pwd:"123456"})
 }
 
