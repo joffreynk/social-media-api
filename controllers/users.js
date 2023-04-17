@@ -2,25 +2,30 @@ import bcrypt from "bcryptjs";
 import db from "../models/connection.js";
 
 export const getUsers = (req, res)=>{
-      
+
+  
   // check if user exist
   const sqlCheck = "SELECT * FROM users";
-
-
-  db.query(sqlCheck, [req.body.user], (err, data)=>{
+  
+  
+  db.query(sqlCheck, (err, data)=>{
     if(err) return res.status(500).json(err);
-    if(data.length) return res.status(409).json(data);
-})
+    if(data.length) return res.status(201).json(data);
+    return res.status(201).json(data);
+  })
 }
 
 
 export const addUser = (req, res)=>{
+  console.log(req.body.body);
   // check if user exist
   const sqlCheck = "SELECT * FROM users WHERE userName = ?";
   const body = JSON.parse(req.body.body)
 
   db.query(sqlCheck, [body.userName], (err, data)=>{
-    if(err) return res.status(500).json({error: 'oops check your '});
+
+    console.log(err);
+    if(err) return res.status(500).json({error: 'oops check your data'});
     if(data.length) return res.status(409).json({error: "The User already exists or taken!"});
 
 
