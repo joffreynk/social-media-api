@@ -1,9 +1,12 @@
+import db from "../models/connection.js";
 
 export const getPosts = (req, res)=>{
-  const sql = "SELECT p FROM Posts as p JOIN users AS u ON u.id = p.userId WHERE u.id = p.userId";
+  const sql = "SELECT p.* FROM Posts as p JOIN users AS u ON u.id = p.userId  WHERE u.id = 8;"; // JOIN follow AS f ON u.id = p.userId
 
-console.log('get posts called');
-  res.status(201).json(stories)
+  db.query(sql, [], (err,data)=>{
+    if (err) return res.status(404).json({message:"oops you don't have any post from you or your followers"});
+    return  res.status(201).json(data)
+  })
 }
 
 
