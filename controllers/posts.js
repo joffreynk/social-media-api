@@ -1,8 +1,13 @@
 import db from "../models/connection.js";
+import jwt from 'jsonwebtoken';
 
 export const getPosts = (req, res)=>{
-  const sql = "SELECT p.* FROM Posts as p JOIN users AS u ON u.id = p.userId  WHERE u.id = 8;"; // JOIN follow AS f ON u.id = p.userId
 
+  const token = req.cookies.socialMediaAppToken;
+  if (!token) return res.status(401).json({message: "Not logged in"})
+  const sql = "SELECT p.* FROM Posts as p JOIN users AS u ON (u.id = p.userId) LEFT JOIN Follow AS f ON (p.userId = f.followedId ) WHERE  f.followerId = 8 OR p.userId = 8;"; // 
+
+  if
   db.query(sql, [], (err,data)=>{
     if (err) return res.status(404).json({message:"oops you don't have any post from you or your followers"});
     return  res.status(201).json(data)
