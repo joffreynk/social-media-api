@@ -5,12 +5,17 @@ export const getPosts = (req, res)=>{
 
   const token = req.cookies.socialMediaAppToken;
   if (!token) return res.status(401).json({message: "Not logged in"})
-  const sql = "SELECT p.* FROM Posts as p JOIN users AS u ON (u.id = p.userId) LEFT JOIN Follow AS f ON (p.userId = f.followedId ) WHERE  f.followerId = 8 OR p.userId = 8;"; // 
+  const sql = "SELECT p.* FROM Posts as p JOIN users AS u ON (u.id = p.userId) LEFT JOIN Follow AS f ON (p.userId = f.followedId ) WHERE  f.followerId = ? OR p.userId = ?;"; // 
 
-  if
-  db.query(sql, [], (err,data)=>{
-    if (err) return res.status(404).json({message:"oops you don't have any post from you or your followers"});
-    return  res.status(201).json(data)
+  jwt.verify(token, "secretKey", (err, mytoken)=>{
+    if(err) return res.status(500).json({message:"Invalid token"})
+    console.log(mytoken.id);
+
+    db.query(sql, [mytoken.id, mytoken.id], (err,data)=>{
+      if (err) return res.status(404).json({message:err});
+      return  res.status(201).json(data)
+    })
+
   })
 }
 
