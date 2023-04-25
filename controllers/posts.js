@@ -21,7 +21,18 @@ export const getPosts = (req, res)=>{
 
 
 export const addPost = (req, res)=>{
-  res.status(201).json({name:"posts", pwd:"123456"})
+
+   if (!token) return res.status(401).json({message: "Not logged in"})
+  const sql = "IINSERT INTO Posts () VALUES ()"; // 
+
+  jwt.verify(token, "secretKey", (err, mytoken)=>{
+    if(err) return res.status(500).json({message:"Invalid token"})
+    db.query(sql, [mytoken.id, mytoken.id], (err,data)=>{
+      if (err) return res.status(404).json({message:err});
+      return  res.status(201).json(data)
+    })
+
+  })
 }
 
 export const getPost = (req, res)=>{
