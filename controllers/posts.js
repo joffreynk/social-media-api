@@ -36,7 +36,21 @@ export const addPost = (req, res)=>{
 }
 
 export const getPost = (req, res)=>{
-  res.status(201).json({name:"posts", pwd:"123456"})
+ 
+  const token = req.cookies.socialMediaAppToken;
+  if (!token) return res.status(401).json({message: "Not logged in"})
+  const sql = "SELECT * FROM Posts WHERE   Posts.userId = ?;"; // 
+
+  jwt.verify(token, "secretKey", (err, mytoken)=>{
+    if(err) return res.status(500).json({message:"Invalid token"})
+    console.log(mytoken.id);
+
+    db.query(sql, [mytoken.id, mytoken.id], (err,data)=>{
+      if (err) return res.status(404).json({message:err});
+      return  res.status(201).json(data)
+    })
+
+  })
 }
 
 
