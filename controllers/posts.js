@@ -9,7 +9,6 @@ export const getPosts = (req, res)=>{
 
   jwt.verify(token, "secretKey", (err, mytoken)=>{
     if(err) return res.status(500).json({message:"Invalid token"})
-    console.log(mytoken.id);
 
     db.query(sql, [mytoken.id, mytoken.id], (err,data)=>{
       if (err) return res.status(404).json({message:err});
