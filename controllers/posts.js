@@ -12,6 +12,7 @@ export const getPosts = (req, res)=>{
 
     db.query(sql, [mytoken.id, mytoken.id], (err,data)=>{
       if (err) return res.status(404).json({message:err});
+      console.log(data.length);
       return  res.status(201).json(data)
     })
 
@@ -22,7 +23,7 @@ export const getPosts = (req, res)=>{
 export const addPost = (req, res)=>{
 
    if (!token) return res.status(401).json({message: "Not logged in"})
-  const sql = "IINSERT INTO Posts () VALUES ()"; // 
+  const sql = "INSERT INTO Posts () VALUES ()"; // 
 
   jwt.verify(token, "secretKey", (err, mytoken)=>{
     if(err) return res.status(500).json({message:"Invalid token"})
@@ -38,14 +39,14 @@ export const getPost = (req, res)=>{
  
   const token = req.cookies.socialMediaAppToken;
   if (!token) return res.status(401).json({message: "Not logged in"})
-  const sql = "SELECT * FROM Posts WHERE   Posts.userId = ?;"; // 
-
+  const sql = "SELECT * FROM Posts WHERE userId = ?";
   jwt.verify(token, "secretKey", (err, mytoken)=>{
     if(err) return res.status(500).json({message:"Invalid token"})
     console.log(mytoken.id);
 
-    db.query(sql, [mytoken.id], (err,data)=>{
+    db.query(sql, [mytoken.id, mytoken.id], (err, data)=>{
       if (err) return res.status(404).json({message:err});
+      console.log(data);
       return  res.status(201).json(data)
     })
 
