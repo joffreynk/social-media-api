@@ -17,14 +17,12 @@ export const getUsers = (req, res)=>{
 
 
 export const addUser = (req, res)=>{
-  console.log(req.body.body);
   // check if user exist
   const sqlCheck = "SELECT * FROM users WHERE userName = ?";
   const body = JSON.parse(req.body.body)
 
   db.query(sqlCheck, [body.userName], (err, data)=>{
 
-    console.log(err);
     if(err) return res.status(500).json({error: 'oops check your data'});
     if(data.length) return res.status(409).json({error: "The User already exists or taken!"});
 
@@ -64,7 +62,7 @@ export const deleteUser = (req, res)=>{
 
   db.query(sqlCheck, [req.body.id], (err, data)=>{
     if(err) return res.status(500).json(err);
-    if(data.length) return res.status(409).json({message:"User deleted successfully"});
+    if(data.length) return res.status(203).json({message:"User deleted successfully"});
   })
 }
 

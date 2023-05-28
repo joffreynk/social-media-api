@@ -3,7 +3,6 @@ import jwt from 'jsonwebtoken';
 import db from "../models/connection.js";
 
 export const login = (req, res)=>{
-  console.log(req);
 
   const sql = "SELECT * FROM `users` WHERE userName = ?";
 
