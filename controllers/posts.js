@@ -1,8 +1,9 @@
 import db from "../models/connection.js";
 import jwt from 'jsonwebtoken';
-import uploads from "../config/upload.js";
+// import uploads from "../config/upload.js";
 
 export const getPosts = (req, res)=>{
+  console.log('get posts');
 
   const token = req.cookies.socialMediaAppToken;
   if (!token) return res.status(401).json({message: "Not logged in"})
@@ -10,13 +11,11 @@ export const getPosts = (req, res)=>{
 
   jwt.verify(token, "secretKey", (err, mytoken)=>{
     if(err) return res.status(500).json({message:"Invalid token"})
-
-
-    db.query(sql, [mytoken.id, mytoken.id], (err,data)=>{
+    db.query(sql, [mytoken.id, mytoken.id], (err, data)=>{
       if (err) return res.status(404).json({message:err});
+      console.log(data.length);
       return  res.status(201).json(data)
     })
-
   })
 }
 
@@ -32,28 +31,28 @@ export const addPost = (req, res)=>{
   jwt.verify(token, "secretKey", (err, mytoken)=>{
     if(err) return res.status(500).json({message:"Invalid token"})
 
-    try {
-      upload.single('postImage')(req, res, async(err)=>{
-        if(err) return res.status(500).json({message:"failed to upload post image"})
-      })
+    // try {
+    //   upload.single('postImage')(req, res, async(err)=>{
+    //     if(err) return res.status(500).json({message:"failed to upload post image"})
+    //   })
 
       
-    console.log('ready to create user');
-    console.log(req.body);
+    // console.log('ready to create user');
+    // console.log(req.body);
     
     
     
-    const {path, filename} = req.files;
-    console.log(filename);
+    // const {path, filename} = req.files;
+    // console.log(filename);
     
-    // db.query(sql, [mytoken.id, mytoken.id], (err,data)=>{
-      //   if (err) return res.status(404).json({message:err});
-      //   return  res.status(201).json(data)
-      // })
+    // // db.query(sql, [mytoken.id, mytoken.id], (err,data)=>{
+    //   //   if (err) return res.status(404).json({message:err});
+    //   //   return  res.status(201).json(data)
+    //   // })
       return res.status(200).json({message:"ready to create user"})
-    } catch (error) {
+    // } catch (error) {
       
-    }
+    // }
 
   })
 }
