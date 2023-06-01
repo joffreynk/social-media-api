@@ -13,7 +13,6 @@ export const getPosts = (req, res)=>{
 
     db.query(sql, [mytoken.id, mytoken.id], (err,data)=>{
       if (err) return res.status(404).json({message:err});
-      console.log(data.length);
       return  res.status(201).json(data)
     })
 
