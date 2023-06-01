@@ -1,6 +1,6 @@
 import db from "../models/connection.js";
 import jwt from 'jsonwebtoken';
-import upload from "../config/upload.js";
+import uploads from "../config/upload.js";
 
 export const getPosts = (req, res)=>{
 

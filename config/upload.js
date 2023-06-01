@@ -1,7 +1,7 @@
 import multer from "multer";
 import fs from "fs";
 
-export default  uploads  = multer({
+const uploads  = multer({
   destination: (req, file, cb)=>{
     if(!fs.existsSync('./public')) fs.mkdirSync(__dirname + '/public');
     cb(null, './public')
@@ -17,3 +17,5 @@ export default  uploads  = multer({
     }
   }
 })
+
+export default  uploads;
