@@ -33,6 +33,8 @@ export const addPost = (req, res)=>{
       upload.single('postImage')(req, res, async(err)=>{
         if(err) return res.status(500).json({message:"failed to upload post image"})
       })
+
+      const {path, filenames} = req.files;
       
       db.query(sql, [mytoken.id, mytoken.id], (err,data)=>{
         if (err) return res.status(404).json({message:err});
