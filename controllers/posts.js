@@ -28,10 +28,19 @@ export const addPost = (req, res)=>{
 
   jwt.verify(token, "secretKey", (err, mytoken)=>{
     if(err) return res.status(500).json({message:"Invalid token"})
-    db.query(sql, [mytoken.id, mytoken.id], (err,data)=>{
-      if (err) return res.status(404).json({message:err});
-      return  res.status(201).json(data)
-    })
+
+    try {
+      upload.single('postImage')(req, res, async(err)=>{
+        if(err) return res.status(500).json({message:"failed to upload post image"})
+      })
+      
+      db.query(sql, [mytoken.id, mytoken.id], (err,data)=>{
+        if (err) return res.status(404).json({message:err});
+        return  res.status(201).json(data)
+      })
+    } catch (error) {
+      
+    }
 
   })
 }
