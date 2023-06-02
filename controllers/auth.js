@@ -14,11 +14,12 @@ export const login = (req, res)=>{
 
       const token = jwt.sign({id: data[0].id}, "secretKey");
       const comparedPassword = bcrypt.compareSync(req.headers.password, data[0].password);
-      if(!comparedPassword) return res.status(404).json({message: "wrong UserName or Password"});
+      if(!comparedPassword) return res.status(404).json({message: "wrong user name or Password"});
       const {password, ...others} = data[0];
+      
       return res.cookie("socialMediaAppToken", token, {httpOnly: true}).status(200).json(others);
     }else {
-      return res.status(404).json({message: "user not found"});
+      return res.status(404).json({message: "The account was not found, please register"});
     }
   })
 }
