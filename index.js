@@ -11,14 +11,20 @@ import postsRouter from "./routes/posts.js"
 import socialAccountsRouter from "./routes/socialAccounts.js"
 import storiesRouter from "./routes/stories.js"
 import authRouter from "./routes/auth.js"
+import bodyParser from "body-parser";
 
-app.use(express.json())
+// app.use(express.json())
 app.use(cookieParser())
 
 app.use((req, res, next)=>{
   res.header('Access-Control-Allow-Credentials', true);
   next();
 })
+// app.use(
+//   bodyParser.urlencoded({
+//     extended: false,
+//   })
+// );
 app.use(cors({
   origin: "http://localhost:3000",
 }))
