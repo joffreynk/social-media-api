@@ -50,7 +50,7 @@ export const addPost = (req, res) => {
         // extract file path and other metadata
         const {path } = req.file
         let fullUrl = req.headers.host
-        const picture = req.file?`${fullUrl}/${path.split(os.type() == 'Windows_NT' ? '\\' : '/').slice(1).join('/')}`:null;
+        const picture = req.file?`http://${fullUrl}/${path.split(os.type() == 'Windows_NT' ? '\\' : '/').slice(1).join('/')}`:null;
         const description = req.body && req.body.description ? req.body.description : null;
 
         if(!description && !picture) return res.status(400).json({ message: 'post is not created, please submit either text or image' });
