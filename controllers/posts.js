@@ -50,7 +50,7 @@ export const addPost = (req, res) => {
         // extract file path and other metadata
         const {path } = req.file
         let fullUrl = req.headers.host
-        const picture = req.file?`${fullUrl}/${path.split(os.type() == 'Windows_NT' ? '\\' : '/').join('/')}`:null;
+        const picture = req.file?`${fullUrl}/${path.split(os.type() == 'Windows_NT' ? '\\' : '/').slice(1).join('/')}`:null;
         const description = req.body && req.body.description ? req.body.description : null;
 
         if(!description && !picture) return res.status(400).json({ message: 'Uploading error, please verify your image' });
@@ -60,14 +60,14 @@ export const addPost = (req, res) => {
         const values = [description, picture, mytoken.id];
         console.log('post created with ', values);
   
-        db.query(sql, values, (err, result) => {
-          if (err) {
-            if(fs.existsSync(path)) fs.unlinkSync(path);
-            return res.status(404).json({message: 'The post is not created'})
-          }
+        // db.query(sql, values, (err, result) => {
+        //   if (err) {
+        //     if(fs.existsSync(path)) fs.unlinkSync(path);
+        //     return res.status(404).json({message: 'The post is not created'})
+        //   }
         return res.status(200).json({ message: 'post created successfully' });
   
-        });
+        // });
     })
 
     } catch (error) {

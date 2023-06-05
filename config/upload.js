@@ -3,8 +3,8 @@ import fs from "fs";
 
 const diskData = multer.diskStorage({
   destination: (req, file, cb)=>{
-    if(!fs.existsSync('./public')) fs.mkdirSync('./public');
-    cb(null, './public')
+    if(!fs.existsSync('./public/images')) fs.mkdirSync('./public/images');
+    cb(null, './public/images')
   },
   filename: (req, file, cb) =>{
     cb(null, Date.now() + '-' +file.originalname)
