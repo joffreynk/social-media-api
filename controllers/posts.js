@@ -56,18 +56,19 @@ export const addPost = (req, res) => {
         if(!description && !picture) return res.status(400).json({ message: 'post is not created, please submit either text or image' });
   
         // insert file path and metadata into data
-        const sql =  'INSERT INTO posts (description, picture, userId) VALUES(?, ?, ?)';
+        const sql =  'INSERT INTO Posts (description, picture, userId) VALUES(?, ?, ?)';
         const values = [description, picture, mytoken.id];
         console.log('post created with ', values);
   
-        // db.query(sql, values, (err, result) => {
-        //   if (err) {
-        //     if(fs.existsSync(path)) fs.unlinkSync(path);
-        //     return res.status(404).json({message: 'The post is not created'})
-        //   }
+        db.query(sql, values, (err, result) => {
+          if (err) {
+            console.log(err);
+            if(fs.existsSync(path)) fs.unlinkSync(path);
+            return res.status(404).json({message: 'The post is not created'})
+          }
         return res.status(200).json({ message: 'post created successfully' });
   
-        // });
+        });
     })
 
     } catch (error) {

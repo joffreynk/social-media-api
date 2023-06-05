@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.2.0
+-- version 5.2.1
 -- https://www.phpmyadmin.net/
 --
--- Host: localhost
--- Generation Time: Apr 04, 2023 at 12:24 AM
--- Server version: 10.4.27-MariaDB
--- PHP Version: 8.2.0
+-- Host: 127.0.0.1
+-- Generation Time: Jun 05, 2023 at 06:30 PM
+-- Server version: 8.0.32-0ubuntu0.22.04.2
+-- PHP Version: 8.2.4
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -18,7 +18,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Database: `socialMediaAPI`
+-- Database: `socialMediaApp`
 --
 
 -- --------------------------------------------------------
@@ -28,11 +28,11 @@ SET time_zone = "+00:00";
 --
 
 CREATE TABLE `comments` (
-  `id` int(11) NOT NULL,
-  `description` text NOT NULL,
-  `createdAt` timestamp NOT NULL DEFAULT current_timestamp(),
-  `userId` int(11) NOT NULL,
-  `postId` int(11) NOT NULL
+  `id` int NOT NULL,
+  `description` text COLLATE utf32_bin NOT NULL,
+  `createdAt` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `userId` int NOT NULL,
+  `postId` int NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf32 COLLATE=utf32_bin;
 
 -- --------------------------------------------------------
@@ -42,12 +42,18 @@ CREATE TABLE `comments` (
 --
 
 CREATE TABLE `Follow` (
-  `id` int(11) NOT NULL,
-  `followerId` int(11) NOT NULL,
-  `followedId` int(11) NOT NULL,
-  `createtAt` timestamp NOT NULL DEFAULT current_timestamp(),
-  `userId` int(11) NOT NULL
+  `id` int NOT NULL,
+  `followerId` int NOT NULL,
+  `followedId` int NOT NULL,
+  `followBack` tinyint(1) DEFAULT '0'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf32 COLLATE=utf32_bin;
+
+--
+-- Dumping data for table `Follow`
+--
+
+INSERT INTO `Follow` (`id`, `followerId`, `followedId`, `followBack`) VALUES
+(1, 8, 13, 0);
 
 -- --------------------------------------------------------
 
@@ -56,10 +62,10 @@ CREATE TABLE `Follow` (
 --
 
 CREATE TABLE `likes` (
-  `id` int(11) NOT NULL,
-  `userId` int(11) NOT NULL,
-  `postId` int(11) NOT NULL,
-  `CreatedAt` timestamp NOT NULL DEFAULT current_timestamp()
+  `id` int NOT NULL,
+  `userId` int NOT NULL,
+  `postId` int NOT NULL,
+  `CreatedAt` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf32 COLLATE=utf32_bin;
 
 -- --------------------------------------------------------
@@ -69,12 +75,38 @@ CREATE TABLE `likes` (
 --
 
 CREATE TABLE `Posts` (
-  `id` int(11) NOT NULL,
-  `title` text DEFAULT NULL,
-  `picture` varchar(300) DEFAULT NULL,
-  `createtAt` timestamp NOT NULL DEFAULT current_timestamp(),
-  `userId` int(11) NOT NULL
+  `id` int NOT NULL,
+  `description` text CHARACTER SET utf32 COLLATE utf32_bin,
+  `picture` varchar(300) COLLATE utf32_bin DEFAULT NULL,
+  `createtAt` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `userId` int NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf32 COLLATE=utf32_bin;
+
+--
+-- Dumping data for table `Posts`
+--
+
+INSERT INTO `Posts` (`id`, `description`, `picture`, `createtAt`, `userId`) VALUES
+(1, 'An apple mobile which is nothing like apple', 'https://i.dummyjson.com/data/products/1/thumbnail.jpg', '2023-04-24 18:49:53', 8),
+(2, 'An apple mobile which is nothing like apple', 'https://i.dummyjson.com/data/products/1/thumbnail.jpg', '2023-04-24 18:49:59', 8),
+(3, 'An apple mobile which is nothing like apple', 'https://i.dummyjson.com/data/products/1/thumbnail.jpg', '2023-04-24 18:50:02', 8),
+(4, 'An apple mobile which is nothing like apple', 'https://i.dummyjson.com/data/products/1/thumbnail.jpg', '2023-04-24 18:50:04', 8),
+(5, 'An apple mobile which is nothing like apple', 'https://i.dummyjson.com/data/products/1/thumbnail.jpg', '2023-04-24 18:50:13', 8),
+(6, 'An apple mobile which is nothing like apple', 'https://i.dummyjson.com/data/products/1/thumbnail.jpg', '2023-04-24 18:50:15', 8),
+(7, 'Samsung\'s new variant which goes beyond Galaxy to the Universe', 'https://i.dummyjson.com/data/products/3/thumbnail.jpg', '2023-04-24 18:52:46', 13),
+(8, 'Samsung\'s new variant which goes beyond Galaxy to the Universe', 'https://i.dummyjson.com/data/products/3/thumbnail.jpg', '2023-04-24 18:52:48', 13),
+(9, 'Samsung\'s new variant which goes beyond Galaxy to the Universe', 'https://i.dummyjson.com/data/products/3/thumbnail.jpg', '2023-04-24 18:52:49', 13),
+(10, 'Samsung\'s new variant which goes beyond Galaxy to the Universe', 'https://i.dummyjson.com/data/products/3/thumbnail.jpg', '2023-04-24 18:52:49', 13),
+(11, 'Samsung\'s new variant which goes beyond Galaxy to the Universe', 'https://i.dummyjson.com/data/products/3/thumbnail.jpg', '2023-04-24 18:52:50', 13),
+(12, 'Samsung\'s new variant which goes beyond Galaxy to the Universe', 'https://i.dummyjson.com/data/products/3/thumbnail.jpg', '2023-04-24 18:52:50', 13),
+(13, 'OPPO F19 is officially announced on April 2021.', 'https://i.dummyjson.com/data/products/4/thumbnail.jpg', '2023-04-24 20:42:30', 12),
+(14, 'OPPO F19 is officially announced on April 2021.', 'https://i.dummyjson.com/data/products/4/thumbnail.jpg', '2023-04-24 20:42:30', 12),
+(15, 'OPPO F19 is officially announced on April 2021.', 'https://i.dummyjson.com/data/products/4/thumbnail.jpg', '2023-04-24 20:42:39', 12),
+(16, 'OPPO F19 is officially announced on April 2021.', 'https://i.dummyjson.com/data/products/4/thumbnail.jpg', '2023-04-24 20:42:52', 12),
+(17, 'OPPO F19 is officially announced on April 2021.', 'https://i.dummyjson.com/data/products/4/thumbnail.jpg', '2023-04-24 20:42:52', 12),
+(18, 'OPPO F19 is officially announced on April 2021.', 'https://i.dummyjson.com/data/products/4/thumbnail.jpg', '2023-04-24 20:42:52', 12),
+(19, 'OPPO F19 is officially announced on April 2021.', 'https://i.dummyjson.com/data/products/4/thumbnail.jpg', '2023-04-24 20:42:52', 12),
+(20, 'OPPO F19 is officially announced on April 2021.', 'https://i.dummyjson.com/data/products/4/thumbnail.jpg', '2023-04-24 20:42:52', 12);
 
 -- --------------------------------------------------------
 
@@ -83,13 +115,13 @@ CREATE TABLE `Posts` (
 --
 
 CREATE TABLE `socialAccounts` (
-  `userId` int(11) NOT NULL,
-  `facebook` varchar(100) DEFAULT NULL,
-  `linkedIn` varchar(100) DEFAULT NULL,
-  `ig` varchar(100) DEFAULT NULL,
-  `twiter` varchar(100) DEFAULT NULL,
-  `pinterRest` varchar(100) DEFAULT NULL,
-  `website` varchar(150) DEFAULT NULL
+  `userId` int NOT NULL,
+  `facebook` varchar(100) COLLATE utf32_bin DEFAULT NULL,
+  `linkedIn` varchar(100) COLLATE utf32_bin DEFAULT NULL,
+  `ig` varchar(100) COLLATE utf32_bin DEFAULT NULL,
+  `twiter` varchar(100) COLLATE utf32_bin DEFAULT NULL,
+  `pinterRest` varchar(100) COLLATE utf32_bin DEFAULT NULL,
+  `website` varchar(150) COLLATE utf32_bin DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf32 COLLATE=utf32_bin;
 
 -- --------------------------------------------------------
@@ -99,11 +131,11 @@ CREATE TABLE `socialAccounts` (
 --
 
 CREATE TABLE `stories` (
-  `id` int(11) NOT NULL,
-  `userId` int(11) NOT NULL,
-  `storyPicture` varchar(200) NOT NULL,
-  `description` varchar(50) DEFAULT NULL,
-  `createtAt` timestamp NOT NULL DEFAULT current_timestamp()
+  `id` int NOT NULL,
+  `userId` int NOT NULL,
+  `storyPicture` varchar(200) COLLATE utf32_bin NOT NULL,
+  `description` varchar(50) COLLATE utf32_bin DEFAULT NULL,
+  `createtAt` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf32 COLLATE=utf32_bin;
 
 -- --------------------------------------------------------
@@ -113,16 +145,16 @@ CREATE TABLE `stories` (
 --
 
 CREATE TABLE `users` (
-  `id` int(11) NOT NULL,
-  `userName` varchar(100) NOT NULL,
-  `lastName` varchar(100) NOT NULL,
-  `firstName` varchar(100) NOT NULL,
-  `email` varchar(100) NOT NULL,
-  `password` varchar(200) NOT NULL,
-  `profilePicture` varchar(200) DEFAULT NULL,
-  `coverPicture` varchar(200) DEFAULT NULL,
-  `location` varchar(200) DEFAULT NULL,
-  `createtAt` timestamp NOT NULL DEFAULT current_timestamp()
+  `id` int NOT NULL,
+  `userName` varchar(100) COLLATE utf32_bin NOT NULL,
+  `lastName` varchar(100) COLLATE utf32_bin NOT NULL,
+  `firstName` varchar(100) COLLATE utf32_bin NOT NULL,
+  `email` varchar(100) COLLATE utf32_bin NOT NULL,
+  `password` varchar(200) COLLATE utf32_bin NOT NULL,
+  `profilePicture` varchar(200) COLLATE utf32_bin DEFAULT NULL,
+  `coverPicture` varchar(200) COLLATE utf32_bin DEFAULT NULL,
+  `location` varchar(200) COLLATE utf32_bin DEFAULT NULL,
+  `createtAt` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf32 COLLATE=utf32_bin;
 
 --
@@ -130,7 +162,7 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `userName`, `lastName`, `firstName`, `email`, `password`, `profilePicture`, `coverPicture`, `location`, `createtAt`) VALUES
-(3, 'Joffrey1', 'nk', 'Joffrey', 'joy1@gmail.com', '$2a$10$7m6BWB4D9pbV1NQ7.MFuieIprp1TickFm2plFEZ31ZJxy6uou9tF2', NULL, NULL, NULL, '2023-03-17 11:54:29'),
+(3, 'Joffrey1', 'nk', 'Joffrey', 'joy1@gmail.com', '$2a$10$7m6BWB4D9pbV1NQ7.MFuieIprp1TickFm2plFEZ31ZJxy6uou9tF2', 'http://localhost:3000/images/jess.jpg', NULL, NULL, '2023-03-17 11:54:29'),
 (4, 'Joffrey2', 'nk', 'Joffrey', 'joy1@gmail.com', '$2a$10$stEGmb1Sp1ex5GBqCESl2eZQsqOTFam4H3yiF9Pg3kj3LtzIyNMWK', NULL, NULL, NULL, '2023-03-23 17:11:48'),
 (5, 'joy1', 'NKESHIMANA', 'Joffrey', 'joy1@gmail.com', '$2a$10$nUKOTQyOsGGwB6cgM9YB6.A5D4CboFHI8UeryQejzTl5f12Czt35y', NULL, NULL, NULL, '2023-04-03 16:58:31'),
 (6, 'joy2', 'NKESHIMANA', 'Joffrey', 'joy2@gmail.com', '$2a$10$CkWSycveXc6bSECdFnRah.pW/pSH5Q8FXNmiFJeYqr60ba0Ev6GD6', NULL, NULL, NULL, '2023-04-03 17:01:09'),
@@ -159,7 +191,6 @@ ALTER TABLE `comments`
 --
 ALTER TABLE `Follow`
   ADD PRIMARY KEY (`id`),
-  ADD KEY `userId` (`userId`),
   ADD KEY `followId` (`followerId`,`followedId`),
   ADD KEY `followed` (`followedId`);
 
@@ -208,37 +239,37 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `comments`
 --
 ALTER TABLE `comments`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `Follow`
 --
 ALTER TABLE `Follow`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `likes`
 --
 ALTER TABLE `likes`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `Posts`
 --
 ALTER TABLE `Posts`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
 
 --
 -- AUTO_INCREMENT for table `stories`
 --
 ALTER TABLE `stories`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
 -- Constraints for dumped tables
