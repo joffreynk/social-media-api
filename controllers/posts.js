@@ -1,6 +1,7 @@
 import db from "../models/connection.js";
 import jwt from 'jsonwebtoken';
 import uploads from "../config/upload.js";
+import fs from 'fs';
 import os from 'os';
 
 export const getPosts = (req, res)=>{
@@ -47,8 +48,10 @@ export const addPost = (req, res) => {
         }
   
         // extract file path and other metadata
-        let fullUrl = req.headers.origin
-        const picture = req.file?`${fullUrl}/${req.file.path.split(os.type() == 'Windows_NT' ? '\\' : '/').join('/')}`:null;
+        const {path } = req.file
+        let fullUrl = req.headers.host
+        console.log(req.headers.host);
+        const picture = req.file?`${fullUrl}/${path.split(os.type() == 'Windows_NT' ? '\\' : '/').join('/')}`:null;
         const description = req.body && req.body.description ? req.body.description : null;
 
         if(!description && !picture) return res.status(400).json({ message: 'Uploading error, please verify your image' });
@@ -58,25 +61,17 @@ export const addPost = (req, res) => {
         const values = [description, picture, mytoken.id];
         console.log('post created with ', values);
   
-        // connection.query(sql, values, (err, result) => {
-        //   if (err) {
-        //     if(fs.existsSync(path)) fs.unlinkSync(path);
-        //     return res.status(404).json({message: 'The User is not created'})
-        //   }
-        // return res.status(200).json({ message: 'User created successfully successfully' });
+        db.query(sql, values, (err, result) => {
+          if (err) {
+            if(fs.existsSync(path)) fs.unlinkSync(path);
+            return res.status(404).json({message: 'The post is not created'})
+          }
+        return res.status(200).json({ message: 'post created successfully' });
   
-        // });
+        });
     })
-    console.log();
-    return res.status(200).json({message:"ready to create user"})
-
-      
-    
-    
 
     } catch (error) {
-      console.log(error);
-      console.log('failed to upload post');
       return res.status(200).json({message:"failed to upload post"})
     }
 
