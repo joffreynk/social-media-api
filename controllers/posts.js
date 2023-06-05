@@ -50,7 +50,6 @@ export const addPost = (req, res) => {
         // extract file path and other metadata
         const {path } = req.file
         let fullUrl = req.headers.host
-        console.log(req.headers.host);
         const picture = req.file?`${fullUrl}/${path.split(os.type() == 'Windows_NT' ? '\\' : '/').join('/')}`:null;
         const description = req.body && req.body.description ? req.body.description : null;
 
