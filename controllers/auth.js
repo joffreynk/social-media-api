@@ -8,6 +8,7 @@ export const login = (req, res)=>{
 
   db.query(sql, [req.headers.username], (error, data) => {
     if (error) return res.status(500).json(error);
+    console.log('login successful');
 
 
     if(data.length>0){

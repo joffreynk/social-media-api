@@ -2,8 +2,6 @@ import  express  from "express";
 import cookieParser from "cookie-parser";
 import cors from "cors";
 
-const app = express();
-
 import usersRouter from "./routes/users.js"
 import likesRouter from "./routes/likes.js"
 import commentsRouter from "./routes/comments.js"
@@ -11,23 +9,18 @@ import postsRouter from "./routes/posts.js"
 import socialAccountsRouter from "./routes/socialAccounts.js"
 import storiesRouter from "./routes/stories.js"
 import authRouter from "./routes/auth.js"
-import bodyParser from "body-parser";
+
+const app = express();
+
 
 // app.use(express.json())
 app.use(cookieParser())
+app.use(cors({origin: "http://localhost:3000"}))
 
 app.use((req, res, next)=>{
   res.header('Access-Control-Allow-Credentials', true);
   next();
 })
-// app.use(
-//   bodyParser.urlencoded({
-//     extended: false,
-//   })
-// );
-app.use(cors({
-  origin: "http://localhost:3000",
-}))
 
 app.use("/api/v1/auth", authRouter);
 app.use("/api/v1/users", usersRouter);

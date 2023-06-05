@@ -1,21 +1,16 @@
 import multer from "multer";
 import fs from "fs";
 
-const uploads  = multer({
+const diskData = multer.diskStorage({
   destination: (req, file, cb)=>{
-    if(!fs.existsSync('./public')) fs.mkdirSync(__dirname + '/public');
+    if(!fs.existsSync('./public')) fs.mkdirSync('./public');
     cb(null, './public')
   },
   filename: (req, file, cb) =>{
-    cb(null, Date.now() + '-' +file.filename)
+    cb(null, Date.now() + '-' +file.originalname)
   },
-  fileFilter: (req, file, cb) => {
-    if (file.mimetype === 'image/jpeg' || file.mimetype === 'image/png') {
-      cb(null, true); // Accept the file
-    } else {
-      cb(new Error('Invalid file type'));
-    }
-  }
 })
+
+const uploads  = multer({storage: diskData})
 
 export default  uploads;

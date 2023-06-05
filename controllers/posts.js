@@ -1,6 +1,7 @@
 import db from "../models/connection.js";
 import jwt from 'jsonwebtoken';
 import uploads from "../config/upload.js";
+import os from 'os';
 
 export const getPosts = (req, res)=>{
   console.log('get posts');
@@ -20,37 +21,59 @@ export const getPosts = (req, res)=>{
 }
 
 
-export const addPost = (req, res)=>{
 
+
+
+
+
+
+
+export const addPost = (req, res) => {
+  console.log('================================================================');
+  
+  
   const token = req.cookies.socialMediaAppToken;
-  console.log('create post called');
-
-   if (!token) return res.status(401).json({message: "Not logged in"})
+  
+  if (!token) return res.status(401).json({message: "Not logged in"})
   const sql = "INSERT INTO Posts () VALUES ()";
-
+  
   jwt.verify(token, "secretKey", (err, mytoken)=>{
     if(err) return res.status(500).json({message:"Invalid token"})
-
+    
     try {
       uploads.single('postImage')(req, res, async(err)=>{
-        console.log('upload image',err);
-        if(err) return res.status(500).json({message:"failed to upload post image"})
-      })
+        if (err) {
+          return res.status(400).json({ message: 'Uploading error, please verify your image' });
+        }
+  
+        // extract file path and other metadata
+        let fullUrl = req.headers.origin
+        const picture = req.file?`${fullUrl}/${req.file.path.split(os.type() == 'Windows_NT' ? '\\' : '/').join('/')}`:null;
+        const description = req.body && req.body.description ? req.body.description : null;
+
+        if(!description && !picture) return res.status(400).json({ message: 'Uploading error, please verify your image' });
+  
+        // insert file path and metadata into data
+        const sql =  'INSERT INTO posts (description, picture, userId) VALUES(?, ?, ?)';
+        const values = [description, picture, mytoken.id];
+        console.log('post created with ', values);
+  
+        // connection.query(sql, values, (err, result) => {
+        //   if (err) {
+        //     if(fs.existsSync(path)) fs.unlinkSync(path);
+        //     return res.status(404).json({message: 'The User is not created'})
+        //   }
+        // return res.status(200).json({ message: 'User created successfully successfully' });
+  
+        // });
+    })
+    console.log();
+    return res.status(200).json({message:"ready to create user"})
 
       
-    console.log('ready to create user');
-    console.log(req.body);
     
     
-    
-    // const {path, filename} = req.files;
-    // console.log(filename);
-    
-    // db.query(sql, [mytoken.id, mytoken.id], (err,data)=>{
-      //   if (err) return res.status(404).json({message:err});
-      //   return  res.status(201).json(data)
-      // })
-      return res.status(200).json({message:"ready to create user"})
+
     } catch (error) {
       console.log(error);
       console.log('failed to upload post');
@@ -59,6 +82,11 @@ export const addPost = (req, res)=>{
 
   })
 }
+
+
+
+
+
 
 export const getPost = (req, res)=>{
  
