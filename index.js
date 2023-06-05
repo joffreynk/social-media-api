@@ -1,7 +1,6 @@
 import  express  from "express";
 import cookieParser from "cookie-parser";
 import cors from "cors";
-// import {path} from 'fs'
 
 import usersRouter from "./routes/users.js"
 import likesRouter from "./routes/likes.js"
@@ -13,7 +12,6 @@ import authRouter from "./routes/auth.js"
 
 const app = express();
 
-
 // app.use(express.json())
 app.use(cookieParser())
 app.use(cors({origin: "http://localhost:3000"}))
@@ -23,7 +21,7 @@ app.use((req, res, next)=>{
   next();
 })
 
-app.use('/images/*', express.static('public'))
+app.use(express.static('public'))
 
 app.use("/api/v1/auth", authRouter);
 app.use("/api/v1/users", usersRouter);

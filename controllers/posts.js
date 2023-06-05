@@ -53,7 +53,7 @@ export const addPost = (req, res) => {
         const picture = req.file?`${fullUrl}/${path.split(os.type() == 'Windows_NT' ? '\\' : '/').slice(1).join('/')}`:null;
         const description = req.body && req.body.description ? req.body.description : null;
 
-        if(!description && !picture) return res.status(400).json({ message: 'Uploading error, please verify your image' });
+        if(!description && !picture) return res.status(400).json({ message: 'post is not created, please submit either text or image' });
   
         // insert file path and metadata into data
         const sql =  'INSERT INTO posts (description, picture, userId) VALUES(?, ?, ?)';
