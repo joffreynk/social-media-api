@@ -5,7 +5,6 @@ import fs from 'fs';
 import os from 'os';
 
 export const getPosts = (req, res)=>{
-  console.log('get posts');
 
   const token = req.cookies.socialMediaAppToken;
   if (!token) return res.status(401).json({message: "Not logged in"})
@@ -14,25 +13,15 @@ export const getPosts = (req, res)=>{
   jwt.verify(token, "secretKey", (err, mytoken)=>{
     if(err) return res.status(500).json({message:"Invalid token"})
     db.query(sql, [mytoken.id, mytoken.id], (err, data)=>{
-      if (err) return res.status(404).json({message:err});
-      console.log(data.length);
+      if (err) return res.status(404).json({message:err.message});
       return  res.status(201).json(data)
     })
   })
 }
 
 
-
-
-
-
-
-
-
 export const addPost = (req, res) => {
-  console.log('================================================================');
-  
-  
+
   const token = req.cookies.socialMediaAppToken;
   
   if (!token) return res.status(401).json({message: "Not logged in"})
@@ -48,9 +37,8 @@ export const addPost = (req, res) => {
         }
   
         // extract file path and other metadata
-        const {path } = req.file
         let fullUrl = req.headers.host
-        const picture = req.file?`http://${fullUrl}/${path.split(os.type() == 'Windows_NT' ? '\\' : '/').slice(1).join('/')}`:null;
+        const picture = req.file?`http://${fullUrl}/${req.file.path.split(os.type() == 'Windows_NT' ? '\\' : '/').slice(1).join('/')}`:null;
         const description = req.body && req.body.description ? req.body.description : null;
 
         if(!description && !picture) return res.status(400).json({ message: 'post is not created, please submit either text or image' });
@@ -58,12 +46,10 @@ export const addPost = (req, res) => {
         // insert file path and metadata into data
         const sql =  'INSERT INTO Posts (description, picture, userId) VALUES(?, ?, ?)';
         const values = [description, picture, mytoken.id];
-        console.log('post created with ', values);
   
         db.query(sql, values, (err, result) => {
           if (err) {
-            console.log(err);
-            if(fs.existsSync(path)) fs.unlinkSync(path);
+            if(fs.existsSync(req.file.path)) fs.unlinkSync(req.file.path);
             return res.status(404).json({message: 'The post is not created'})
           }
         return res.status(200).json({ message: 'post created successfully' });
