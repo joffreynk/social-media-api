@@ -6,19 +6,17 @@ export const login = (req, res)=>{
 
   const sql = "SELECT * FROM `users` WHERE userName = ?";
 
-  db.query(sql, [req.headers.username], (error, data) => {
+  db.query(sql, [req.body.userName], (error, data) => {
     if (error) return res.status(500).json(error);
-    console.log('login successful');
-
 
     if(data.length>0){
 
       const token = jwt.sign({id: data[0].id}, "secretKey");
-      const comparedPassword = bcrypt.compareSync(req.headers.password, data[0].password);
+      const comparedPassword = bcrypt.compareSync(req.body.password, data[0].password);
       if(!comparedPassword) return res.status(404).json({message: "wrong user name or Password"});
       const {password, ...others} = data[0];
       
-      return res.cookie("socialMediaAppToken", token, {httpOnly: true}).status(200).json(others);
+      return res.cookie("socialMediaAppToken", token, {httpOnly: true}).status(200).json({...others, token: token});
     }else {
       return res.status(404).json({message: "The account was not found, please register"});
     }
