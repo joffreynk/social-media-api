@@ -89,6 +89,7 @@ export const getPost = (req, res)=>{
 
 
 export const deletePost = (req, res)=>{
+  console.log(req.body);
   res.status(201).json({name:"posts", pwd:"123456"})
 }
 
