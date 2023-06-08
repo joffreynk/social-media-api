@@ -16,7 +16,7 @@ export const login = (req, res)=>{
       if(!comparedPassword) return res.status(404).json({message: "wrong user name or Password"});
       const {password, ...others} = data[0];
       
-      return res.cookie("socialMediaAppToken", token, {httpOnly: true}).status(200).json({...others, token: token});
+      return res.status(200).json({...others, token: token});
     }else {
       return res.status(404).json({message: "The account was not found, please register"});
     }
@@ -25,8 +25,5 @@ export const login = (req, res)=>{
 
 
  export const logout = (req, res)=>{
-  res.clearCookie("socialMediaAppToken",{
-    secure: true,
-    sameSite: "none"
-  }).status(200).json({message: "User logged out successfully."});
+  res.status(200).json({message: "User logged out successfully."});
 }

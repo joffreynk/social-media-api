@@ -22,7 +22,7 @@ export const getPosts = (req, res)=>{
 
 export const addPost = (req, res) => {
 
-  const token = req.cookies.socialMediaAppToken;
+  const token = req.headers.token;
   
   if (!token) return res.status(401).json({message: "Not logged in"})
   const sql = "INSERT INTO Posts () VALUES ()";
@@ -71,7 +71,7 @@ export const addPost = (req, res) => {
 
 export const getPost = (req, res)=>{
  
-  const token = req.cookies.socialMediaAppToken;
+  const token = req.headers.token;
   if (!token) return res.status(401).json({message: "Not logged in"})
   const sql = "SELECT * FROM Posts WHERE userId = ?";
   jwt.verify(token, "secretKey", (err, mytoken)=>{
