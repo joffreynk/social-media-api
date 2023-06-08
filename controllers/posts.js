@@ -25,7 +25,6 @@ export const addPost = (req, res) => {
   const token = req.headers.token;
   
   if (!token) return res.status(401).json({message: "Not logged in"})
-  const sql = "INSERT INTO Posts () VALUES ()";
   
   jwt.verify(token, "secretKey", (err, mytoken)=>{
     if(err) return res.status(500).json({message:"Invalid token"})
@@ -76,7 +75,6 @@ export const getPost = (req, res)=>{
   const sql = "SELECT * FROM Posts WHERE userId = ?";
   jwt.verify(token, "secretKey", (err, mytoken)=>{
     if(err) return res.status(500).json({message:"Invalid token"})
-    console.log(mytoken.id);
 
     db.query(sql, [mytoken.id, mytoken.id], (err, data)=>{
       if (err) return res.status(404).json({message:err});
@@ -89,8 +87,23 @@ export const getPost = (req, res)=>{
 
 
 export const deletePost = (req, res)=>{
-  console.log(req.body);
-  res.status(201).json({name:"posts", pwd:"123456"})
+  const token = req.headers.token;
+
+  if (!token) return res.status(401).json({message: "Not logged in"});
+
+  jwt.verify(token, "secretKey", (err, mytoken)=>{
+    if(err) return res.status(500).json({message:'ooops, Login Failed, try again'});
+
+    const sql = "DELETE FROM Posts WHERE id = ? AND userId = ?"
+
+    db.query(sql, [req.body.id, mytoken.id], (err, data)=>{
+      if(err) return res.status(500).json({message: 'oops, post is not deleted'});
+
+      if(req.body.pictureUrl && fs.existsSync(`publi${req.body.pictureUrl }`)) fs.unlinkSync(`publi${req.body.pictureUrl}`);
+      return res.status(200).json({message: 'post deleted successfully'})
+    })
+
+  })
 }
 
 
