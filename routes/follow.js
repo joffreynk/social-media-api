@@ -1,14 +1,15 @@
 import {Router} from "express";
-import { FollowBackUser, FollowaUser, unFollow, getFollowers } from "../controllers/follow";
+import { followBackUser, followaUser, unFollow, getFollowers } from "../controllers/follow";
 
 const router = Router()
 
-router.get("/", getLikes)
+router.get("/", getFollowers)
 
-router.post("/", addLike)
+router.post("/", followaUser)
 
+router.delete("/:id", unFollow)
 
-router.delete("/:id", deleteLike)
+router.put("/", followBackUser)
 
 
 export default router

@@ -1,11 +1,11 @@
 
-export const FollowaUser = (req, res)=>{
+export const followaUser = (req, res)=>{
   res.status(201).json({name:"likes", pwd:"123456"})
 }
 
   
 
-export const FollowBackUser = (req, res)=>{
+export const followBackUser = (req, res)=>{
   res.status(201).json({name:"likes", pwd:"123456"})
 }
 
