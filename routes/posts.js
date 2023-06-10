@@ -12,6 +12,6 @@ router.get("/:id", getPost)
 router.post("/delete", deletePost)
 
 
-router.patch("/:id", updatePost)
+// router.patch("/", updatePost)
 
 export default router

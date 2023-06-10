@@ -8,6 +8,7 @@ import postsRouter from "./routes/posts.js"
 import socialAccountsRouter from "./routes/socialAccounts.js"
 import storiesRouter from "./routes/stories.js"
 import authRouter from "./routes/auth.js"
+import following from "./routes/following.js"
 
 const app = express();
 
@@ -31,6 +32,7 @@ app.use("/api/v1/comments", commentsRouter);
 app.use("/api/v1/posts", postsRouter);
 app.use("/api/v1/socialAccounts", socialAccountsRouter);
 app.use("/api/v1/stories", storiesRouter);
+app.use("/api/v1/follow", following);
 
 app.listen(8000, () => {
   console.log("API server listening on port 8000");
