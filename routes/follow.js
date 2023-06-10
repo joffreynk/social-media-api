@@ -1,11 +1,11 @@
 import {Router} from "express";
-import { followBackUser, followaUser, unFollow, getFollowers } from "../controllers/follow";
+import { followBackUser, followUser, unFollow, getFollowers } from "../controllers/follow.js";
 
 const router = Router()
 
 router.get("/", getFollowers)
 
-router.post("/", followaUser)
+router.post("/", followUser)
 
 router.delete("/:id", unFollow)
 

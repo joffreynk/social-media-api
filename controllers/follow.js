@@ -1,5 +1,5 @@
 
-export const followaUser = (req, res)=>{
+export const followUser = (req, res)=>{
   res.status(201).json({name:"likes", pwd:"123456"})
 }
 

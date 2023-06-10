@@ -8,7 +8,7 @@ import postsRouter from "./routes/posts.js"
 import socialAccountsRouter from "./routes/socialAccounts.js"
 import storiesRouter from "./routes/stories.js"
 import authRouter from "./routes/auth.js"
-import following from "./routes/following.js"
+import following from "./routes/follow.js"
 
 const app = express();
 
