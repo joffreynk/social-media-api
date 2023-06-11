@@ -14,9 +14,10 @@ export const login = (req, res)=>{
       const token = jwt.sign({id: data[0].id}, "secretKey");
       const comparedPassword = bcrypt.compareSync(req.body.password, data[0].password);
       if(!comparedPassword) return res.status(404).json({message: "wrong user name or Password"});
-      const {password, ...others} = data[0];
+      let {password, profilePicture, ...others } = data[0];
+      profilePicture = profilePicture && profilePicture.length ? profilePicture : "http://localhost:8000/1686467578870_avatar.png"
       
-      return res.cookie("socialMediaAppToken", token, {httpOnly: true}).status(200).json({...others, token: token});
+      return res.cookie("socialMediaAppToken", token, {httpOnly: true}).status(200).json({...others, profilePicture, token: token});
     }else {
       return res.status(404).json({message: "The account was not found, please register"});
     }

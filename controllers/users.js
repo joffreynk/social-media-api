@@ -3,14 +3,11 @@ import db from "../models/connection.js";
 
 export const getUsers = (req, res)=>{
 
-  
   // check if user exist
-  const sqlCheck = "SELECT * FROM users";
-  
+  const sqlCheck = "SELECT id, userName, lastName, firstName, email, profilePicture,coverPicture, location, createtAt     FROM users";
   
   db.query(sqlCheck, (err, data)=>{
     if(err) return res.status(500).json(err);
-    if(data.length) return res.status(201).json(data);
     return res.status(201).json(data);
   })
 }
