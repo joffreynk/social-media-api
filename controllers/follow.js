@@ -50,10 +50,11 @@ export const getFollowers = (req, res)=>{
 
     /*
     The following statement retrieves all the users whom are not in my connections
-
-    */
     const sql = "SELECT id , userName, lastName, firstName, email, profilePicture, coverPicture, location FROM users WHERE id NOT IN(SELECT DISTINCT p.userId FROM Posts as p JOIN users AS u ON (u.id = p.userId) LEFT JOIN Follow AS f ON ( p.userId = f.followed OR p.userId = f.follower ) WHERE f.follower = ? OR f.followBack = ? OR p.userId = ?);";
-
+    
+    */
+   
+   const sql = "SELECT u.id , userName, lastName, firstName, email, profilePicture, coverPicture, location FROM users AS u LEFT JOIN Follow AS f ON(u.id = f.follower OR u.id = f.followed ) WHERE u.id NOT IN(SELECT DISTINCT u.id FROM users AS u LEFT JOIN Follow AS f ON(u.id = f.follower OR u.id = f.followed ) WHERE u.id = ? OR f.follower = ? OR f.followBack = ?);"
     db.query(sql, [myToken.id, myToken.id,  myToken.id], (err, result)=>{
       if(err) res.status(404).json({message: err.message});
       return res.status(200).json(result);

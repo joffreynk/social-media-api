@@ -8,8 +8,8 @@ export const getPosts = (req, res)=>{
 
   const token = req.headers.token;
   if (!token) return res.status(401).json({message: "Not logged in"})
-  const sql = "SELECT DISTINCT p.* FROM Posts as p JOIN users AS u ON (u.id = p.userId) LEFT JOIN Follow AS f ON ( p.userId = f.followed OR p.userId = f.follower  ) WHERE f.follower = ? OR f.followBack = ? OR p.userId = ?;"; // 
-  // const sql = "SELECT DISTINCT p.* FROM Posts as p JOIN users AS u ON (u.id = p.userId) LEFT JOIN Follow AS f ON ( p.userId = f.followed OR p.userId = f.follower  ) WHERE f.follower = ? OR f.followBack = ? OR p.userId = ?;"; // 
+  const sql = "SELECT DISTINCT p.*, u.profilePicture FROM Posts as p JOIN users AS u ON (u.id = p.userId) LEFT JOIN Follow AS f ON ( p.userId = f.followed OR p.userId = f.follower  ) WHERE f.follower = ? OR f.followBack = ? OR p.userId = ?;"; // 
+  // const sql = "SELECT DISTINCT p.*, u.profilePicture FROM Posts as p JOIN users AS u ON (u.id = p.userId) LEFT JOIN Follow AS f ON ( p.userId = f.followed OR p.userId = f.follower  ) WHERE f.follower = ? OR f.followBack = ? OR p.userId = ?;"; // 
   //   const sql = "SELECT p.* FROM Posts as p JOIN users AS u ON (u.id = p.userId) LEFT JOIN Follow AS f ON (p.userId = f.followedId ) WHERE  f.followerId = ? OR p.userId = ?;"; // 
 
   jwt.verify(token, "secretKey", (err, mytoken)=>{
