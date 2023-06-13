@@ -8,12 +8,12 @@ export const getPosts = (req, res)=>{
 
   const token = req.headers.token;
   if (!token) return res.status(401).json({message: "Not logged in"})
-  const sql = "SELECT p.* FROM Posts as p JOIN users AS u ON (u.id = p.userId) LEFT JOIN Follow AS f ON (p.userId = f.followed ) WHERE  f.followBack = 1 OR  f.follower = ? OR p.userId = ?;"; // 
+  const sql = "SELECT DISTINCT p.* FROM Posts as p JOIN users AS u ON (u.id = p.userId) LEFT JOIN Follow AS f ON ( p.userId = f.followed OR p.userId = f.follower  ) WHERE f.follower = ? OR f.followBack = ? OR p.userId = ?;"; // 
   //   const sql = "SELECT p.* FROM Posts as p JOIN users AS u ON (u.id = p.userId) LEFT JOIN Follow AS f ON (p.userId = f.followedId ) WHERE  f.followerId = ? OR p.userId = ?;"; // 
 
   jwt.verify(token, "secretKey", (err, mytoken)=>{
     if(err) return res.status(500).json({message:"Invalid token"})
-    db.query(sql, [mytoken.id, mytoken.id], (err, data)=>{
+    db.query(sql, [mytoken.id, mytoken.id,  mytoken.id], (err, data)=>{
       if (err) return res.status(404).json({message:err.message});
       return  res.status(201).json(data)
     })
