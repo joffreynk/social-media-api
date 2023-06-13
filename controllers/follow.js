@@ -61,3 +61,21 @@ export const getFollowers = (req, res)=>{
     })
   });
 }
+
+
+
+
+export const getSuggestions = (req, res)=>{
+  const token  = req.headers.token;
+  if (!token) return res.status(403).json({message: 'please sign in again'});
+
+  Jwt.verify(token, "secretKey", (err, myToken)=>{
+    if(err) res.status(404).json({message:'Invalid token' });
+   
+   const sql = "SELECT u.id , userName, lastName, firstName, email, profilePicture, coverPicture, location FROM users AS u LEFT JOIN Follow AS f ON(u.id = f.follower OR u.id = f.followed ) WHERE u.id NOT IN(SELECT DISTINCT u.id FROM users AS u LEFT JOIN Follow AS f ON(u.id = f.follower OR u.id = f.followed ) WHERE u.id = ? OR f.follower = ? OR f.followBack = ?);"
+    db.query(sql, [myToken.id, myToken.id,  myToken.id], (err, result)=>{
+      if(err) res.status(404).json({message: err.message});
+      return res.status(200).json(result);
+    })
+  });
+}
