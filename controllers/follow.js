@@ -26,11 +26,11 @@ export const followBackUser = (req, res)=>{
 
   Jwt.verify(token, "secretKey", (err, myToken)=>{
     if(err) res.status(404).json({message:'Invalid token' });
-    const sql = 'UPDATE Follow SET followBack = ? WHERE followed = ? AND id = ?';
+    const sql = 'UPDATE Follow SET followBack = ? WHERE followed = ? AND id = ? AND follower = ?';
 
-    db.query(sql, [myToken.id, req.body.id], (err, result)=>{
+    db.query(sql, [myToken.id, myToken.id, req.body.followingId, req.body.follower ], (err, result)=>{
       if(err) res.status(404).json({message: err.message});
-      return res.status(200).json({message: 'you have successfully followed'});
+      return res.status(200).json({message: 'you have successfully followed Back'});
     })
   });
 }
