@@ -8,7 +8,7 @@ export const getComments = (req, res)=>{
   Jwt.verify(token, "secretKey", (err, myToken)=>{
     if(err) return res.status(404).json({message:'Invalid token' });
     const postId  = req.url.split('/').slice(-1)[0]
-    const sql = 'SELECT * FROM likes WHERE postId = ?';
+    const sql = 'SELECT * FROM comments WHERE postId = ?';
 
     db.query(sql, [postId], (err, result)=>{
       if(err) return  res.status(404).json({message: err.message});
@@ -23,11 +23,12 @@ export const addComment = (req, res)=>{
 
   Jwt.verify(token, 'secretKey', (err, myToken)=>{
     if(err) return  res.status(404).json({message: "your identification is invalid, please logout and try again"});
-    const sql = 'INSERT INTO likes(postId, userId) VALUES (?, ?);';
+    const sql = 'INSERT INTO comments(postId, userId, description) VALUES (?, ?, ?);';
+    const {postId, comment} = req.body;
 
-    db.query(sql, [req.body.postId, myToken.id], (err, result)=>{
-      if(err) return res.status(404).json({message:"OOOOOPS like failed"});
-      return res.status(200).json({message: 'you have successfully liked a post'});
+    db.query(sql, [postId, myToken.id, comment], (err, result)=>{
+      if(err) return res.status(404).json({message:"OOOOOPS commenting failed"});
+      return res.status(200).json({message: 'Thank you for commenting'});
     })
   })
 }
