@@ -3,7 +3,7 @@ import { addLike, deleteLike, getLikes,  } from "../controllers/likes.js";
 
 const router = Router()
 
-router.get("/", getLikes)
+router.get("/:id", getLikes)
 
 router.post("/", addLike)
 

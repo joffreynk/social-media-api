@@ -5,14 +5,14 @@ import db from '../models/connection.js';
 export const getLikes = (req, res)=>{
   const token  = req.headers.token;
   if (!token) return res.status(403).json({message: 'please sign in again'});
-  console.log(req.body);
 
   Jwt.verify(token, "secretKey", (err, myToken)=>{
-    if(err) res.status(404).json({message:'Invalid token' });
-    const sql = 'SELECT * FROM likes';
+    if(err) return res.status(404).json({message:'Invalid token' });
+    const postId  = req.url.split('/').slice(-1)[0]
+    const sql = 'SELECT * FROM likes WHERE postId = ?';
 
-    db.query(sql, (err, result)=>{
-      if(err) res.status(404).json({message: err.message});
+    db.query(sql, [postId], (err, result)=>{
+      if(err) return  res.status(404).json({message: err.message});
       return res.status(200).json(result);
     })
   });
@@ -20,7 +20,18 @@ export const getLikes = (req, res)=>{
 
 
 export const addLike = (req, res)=>{
-  res.status(201).json({name:"likes", pwd:"123456"})
+  const token = req.headers.token;
+  if(!token) return res.status(404).json({message:"please login before you continue"});
+
+  Jwt.verify(token, 'secretKey', (err, myToken)=>{
+    if(err) return  res.status(404).json({message: "your identification is invalid, please logout and try again"});
+    const sql = 'INSERT INTO likes(postId, userId) VALUES (?, ?);';
+
+    db.query(sql, [req.body.postId, myToken.id], (err, result)=>{
+      if(err) return res.status(404).json({message:"OOOOOPS like failed"});
+      return res.status(200).json({message: 'you have successfully liked a post'});
+    })
+  })
 }
 
 
