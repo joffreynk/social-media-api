@@ -8,7 +8,7 @@ router.get("/:id", getLikes)
 router.post("/", addLike)
 
 
-router.delete("/:id", deleteLike)
+router.put("/", deleteLike)
 
 
 export default router
