@@ -65,13 +65,7 @@ export const addPost = (req, res) => {
   })
 }
 
-
-
-
-
-
 export const getPost = (req, res)=>{
- 
   const token = req.headers.token;
   if (!token) return res.status(401).json({message: "Not logged in"})
   const sql = "SELECT * FROM Posts WHERE userId = ?";
@@ -86,7 +80,6 @@ export const getPost = (req, res)=>{
 
   })
 }
-
 
 export const deletePost = (req, res)=>{
   const token = req.headers.token;
