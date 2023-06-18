@@ -3,7 +3,15 @@ import uploads from "../config/upload.js";
 import db from "../models/connection.js";
 
 export const getStories = (req, res)=>{
-  const sql = "SELECT * FROM stories";
+  const token = req.headers.token;
+  if(!token) return res.status(403).json({message:"please login before you continue"});
+  Jwt.verify(token, 'secretKey', (error, myToken)=>{
+    const sql = "SELECT s.* FROM stories as s LEFT JOIN Follow as f ON s.userId = f.follower";
+    db.query(sql, (err, result)=>{
+      if(err) return  res.status(404).json({message:"failed to retrieve stories"});
+      return  res.status(201).json(result);
+    })
+  })
   res.status(201).json({name:"stories", pwd:"123456"})
 }
 
@@ -19,7 +27,7 @@ export const addStory = (req, res)=>{
         if(error) return res.status(404).json({message: "failed to upload story picture"});
         const sql  = 'INSERT INTO stories (storyPicture, UserId ) VALUES(?,?);';
         const storyUrl = req.file?`http://${fullUrl}/${req.file.path.split(os.type() == 'Windows_NT' ? '\\' : '/').slice(1).join('/')}` : null;
-        
+
         db.query(sql, [storyUrl, myToken.id], (er, result) => {
           if(er) {
             if(fs.existsSync(req.file.path)) fs.unlinkSync(req.file.path);
