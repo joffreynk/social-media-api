@@ -4,7 +4,7 @@ import db from "../models/connection.js";
 export const getUsers = (req, res)=>{
 
   // check if user exist
-  const sqlCheck = "SELECT id, userName, lastName, firstName, email, profilePicture,coverPicture, location, createtAt     FROM users";
+  const sqlCheck = "SELECT id, userName, lastName, firstName, email, profilePicture,coverPicture, location, createtAt FROM users limit 6";
   
   db.query(sqlCheck, (err, data)=>{
     if(err) return res.status(500).json(err);
